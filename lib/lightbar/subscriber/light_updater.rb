@@ -13,7 +13,10 @@ module Lightbar
       end
 
       def on_change(event)
-        @io.puts("#{options.pin}=#{event.value}") unless options.dry || @io.nil?
+        return if options.dry || @io.nil?
+
+        @io.puts("#{options.pin}=#{event.value}")
+        @io.flush
       end
 
       def on_stop(event)
