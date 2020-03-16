@@ -7,37 +7,48 @@ module Lightbar
     # Linear interpolation over a set duration.
     class Tween < Base
 
+      def on_tween(event)
+        setup_variables(event)
+        start_timer
+      end
+
       def on_tick(event)
         update_time(event)
         update_value
         publish_change
-        publish_stop_if_needed
+        stop_timer_if_needed
       end
 
       protected
 
+      def setup_variables(event)
+        @from     = event.from
+        @to       = event.to
+        @duration = event.duration
+        @time     = 0.0
+      end
+
+      def start_timer
+        publish(Event::Start)
+      end
+
       def update_time(event)
-        @time ||= 0.0
         @time += event.delta
       end
 
-      # "Core" of the whole application
       def update_value
-        ratio     = @time / options.duration                        # Normalize
-        @value    = (1 - ratio) * options.from + ratio * options.to # Precise lerp
-        low, high = [options.from, options.to].sort                 # For clamping
-        @value    = @value.clamp(low, high)                         # Clamp value to limits
+        ratio     = @time / @duration                 # Normalize
+        @value    = (1 - ratio) * @from + ratio * @to # Precise lerp
+        low, high = [@from, @to].sort                 # For clamping
+        @value    = @value.clamp(low, high)           # Clamp value to limits
       end
 
       def publish_change
         publish(Event::Change, @value)
       end
 
-      def publish_stop_if_needed
-        if @value == options.to
-          publish(Event::Stop)
-          unsubscribe
-        end
+      def stop_timer_if_needed
+        publish(Event::Stop) if @value == @to
       end
 
     end

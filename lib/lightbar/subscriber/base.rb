@@ -1,5 +1,12 @@
 require 'forwardable'
 
+require 'lightbar/event/initialize'
+require 'lightbar/event/exit'
+require 'lightbar/event/tick'
+require 'lightbar/event/start'
+require 'lightbar/event/stop'
+require 'lightbar/event/change'
+
 module Lightbar
   module Subscriber
 
@@ -14,13 +21,14 @@ module Lightbar
         publisher.subscribe(self)
       end
 
-      def_delegators :@application, :options, :logger, :publisher
+      def_delegators :@application, :options, :logger, :publisher, :message_bus
       def_delegators :publisher, :publish
 
       def on(event)
         case event
         when Event::Initialize then on_init(event)
         when Event::Exit       then on_exit(event)
+        when Event::Tween      then on_tween(event)
         when Event::Tick       then on_tick(event)
         when Event::Start      then on_start(event)
         when Event::Stop       then on_stop(event)
@@ -32,6 +40,9 @@ module Lightbar
       end
 
       def on_exit(event)
+      end
+
+      def on_tween(event)
       end
 
       def on_tick(event)

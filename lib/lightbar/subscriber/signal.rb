@@ -1,5 +1,6 @@
 require 'lightbar/subscriber/base'
-require 'lightbar/event/stop'
+require 'lightbar/event/tween'
+require 'lightbar/event/exit'
 
 module Lightbar
   module Subscriber
@@ -8,7 +9,7 @@ module Lightbar
     class Signal < Base
 
       def on_init(event)
-        trap('INT') { publish(Event::Stop) }
+        trap('INT') { publish(Event::Exit) }
       end
 
     end

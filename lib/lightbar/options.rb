@@ -7,7 +7,7 @@ module Lightbar
       @help       = false
       @verbose    = false
       @dry        = false
-      @daemon     = true
+      @daemon     = false
       @pi_blaster = "/dev/pi-blaster"
       @pin        = 16
       @duration   = 1.0

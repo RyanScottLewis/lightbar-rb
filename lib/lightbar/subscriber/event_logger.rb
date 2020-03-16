@@ -7,7 +7,8 @@ module Lightbar
     class EventLogger < Base
 
       def on(event)
-        logger.debug(event.inspect) if options.verbose && !event.is_a?(Event::Tick)
+        puts(event.inspect) if options.verbose && !event.is_a?(Event::Tick)
+        #logger.debug(event.inspect) if options.verbose && !event.is_a?(Event::Tick)
       end
 
     end
