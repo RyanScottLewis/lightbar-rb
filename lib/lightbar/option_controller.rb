@@ -1,0 +1,91 @@
+require 'forwardable'
+require 'optparse'
+
+require 'lightbar'
+
+module Lightbar
+  class OptionController
+
+    extend Forwardable
+
+    OPTIONS = {
+      help:       [ "-h", "--help" ],
+      verbose:    [ "-v", "--verbose" ],
+      dry:        [ "-D", "--dry-run" ],
+      pi_blaster: [ "-b", "--pi-blaster VALUE" ],
+      pin:        [ "-p", "--pin VALUE" ],
+      duration:   [ "-d", "--duration VALUE" ],
+      from:       [ "-f", "--from VALUE" ],
+      to:         [ "-t", "--to VALUE" ],
+    }
+
+    DESCRIPTIONS = {
+      help:       "Display help",
+      verbose:    "Display extra information",
+      dry:        "Do not perform actions",
+      pi_blaster: "Pi-Blaster device path    (Default: '%s')",
+      pin:        "Pi-Blaster BCM pin        (Default: %d)",
+      duration:   "Tween duration in seconds (Default: %.1f)",
+      from:       "Value to tween from       (Default: %.1f)",
+      to:         "Value to tween to         (Default: %.1f)",
+    }
+
+    HELP = <<~STR
+      lightbar v#{Lightbar::VERSION} - Lightbar PWM Tweening Controller
+
+      Usage: lightbar [OPTIONS]
+
+      Options:
+
+          -h, --help              #{DESCRIPTIONS[:help]}
+          -v, --verbose           #{DESCRIPTIONS[:verbose]}
+          -D, --dry-run           #{DESCRIPTIONS[:dry]}
+          -b, --pi-blaster VALUE  #{DESCRIPTIONS[:pi_blaster]}
+          -p, --pin VALUE         #{DESCRIPTIONS[:pin]}
+          -d, --duration VALUE    #{DESCRIPTIONS[:duration]}
+          -f, --from VALUE        #{DESCRIPTIONS[:from]}
+          -t, --to VALUE          #{DESCRIPTIONS[:to]}
+    STR
+
+    def initialize(application)
+      @application = application
+      @parser      = OptionParser.new
+      @help        = HELP % [options.pi_blaster, options.pin, options.duration, options.from, options.to]
+
+      define_options
+    end
+
+    def_delegators :@application, :arguments, :options
+
+    def call
+      parse_options
+      check_help
+    end
+
+    protected
+
+    def define_options
+      @parser.on(*OPTIONS[:help],       "") {         options.help       = true }
+      @parser.on(*OPTIONS[:verbose],    "") {         options.verbose    = true }
+      @parser.on(*OPTIONS[:dry],        "") {         options.dry        = true }
+      @parser.on(*OPTIONS[:pi_blaster], "") { |value| options.pi_blaster = value }
+      @parser.on(*OPTIONS[:pin],        "") { |value| options.pin        = value }
+      @parser.on(*OPTIONS[:duration],   "") { |value| options.duration   = value }
+      @parser.on(*OPTIONS[:from],       "") { |value| options.from       = value }
+      @parser.on(*OPTIONS[:to],         "") { |value| options.to         = value }
+    end
+
+    def parse_options
+      @parser.parse!(arguments)
+    end
+
+    def check_help
+      return unless options.help
+
+      puts @help
+      exit
+    end
+
+  end
+end
+
