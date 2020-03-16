@@ -48,6 +48,23 @@ module Lightbar
           -d, --duration VALUE    #{DESCRIPTIONS[:duration]}
           -f, --from VALUE        #{DESCRIPTIONS[:from]}
           -t, --to VALUE          #{DESCRIPTIONS[:to]}
+
+      When daemonized, methods are called over D-Bus.
+      Unfortunately this is written in Ruby and it adds some startup overhead.
+      If you want a tween to occur as fast as possible, use the `dbus-send` executable:
+
+        dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:0 double:1 double:1
+
+      Or use the `lightbar-send` script:
+
+        lightbar-send tween 0 0 1
+
+      Dependencies:
+
+        * ruby
+        * ruby-dbus
+        * pi-blaster
+
     STR
 
     def initialize(application)

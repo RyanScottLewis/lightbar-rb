@@ -67,12 +67,12 @@ module Lightbar
           service.export(object)
 
           @message_bus << bus
-
-          @message_bus.run
         rescue DBus::Error
           @logger.fatal("Unable to create D-Bus session service/object.")
           exit 1
         end
+
+        @message_bus.run
 
       else
 
