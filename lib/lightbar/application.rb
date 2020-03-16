@@ -76,17 +76,23 @@ module Lightbar
 
       else
 
-        begin
-          @logger.info("Attempting to run through D-Bus.")
-
+        dbus = begin
           bus     = DBus::SessionBus.instance
           service = bus.service("org.Lightbar")
 
           object = service.object("/")
           object.default_iface = "org.Lightbar"
 
-          object.tween(@options.from, @options.to, @options.duration)
+          true
         rescue DBus::Error
+          false
+        end
+
+        if dbus
+          @logger.info("Attempting to run through D-Bus.")
+
+          object.tween(@options.from, @options.to, @options.duration)
+        else
           @logger.info("Attempting to run in current process.")
 
           publish(Event::Tween, @options.from, @options.to, @options.duration)
