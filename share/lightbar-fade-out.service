@@ -1,0 +1,14 @@
+[Unit]
+Description=Lightbar fade out at shutdown
+Requires=lightbar.service
+After=lightbar.service
+
+[Service]
+User=root
+ExecStop=/usr/bin/lightbar 1 0 1
+Type=oneshot
+#RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+

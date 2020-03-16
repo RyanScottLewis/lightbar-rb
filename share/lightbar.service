@@ -1,0 +1,13 @@
+[Unit]
+Description=Lightbar Daemon
+After=pi-blaster.service
+
+[Service]
+EnvironmentFile=-/etc/default/lightbar
+User=root
+ExecStart=/usr/bin/lightbar --daemon $DAEMON_OPTS
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
