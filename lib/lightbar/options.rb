@@ -7,6 +7,7 @@ module Lightbar
       @help       = false
       @verbose    = false
       @dry        = false
+      @daemon     = true
       @pi_blaster = "/dev/pi-blaster"
       @pin        = 16
       @duration   = 1.0
@@ -17,6 +18,7 @@ module Lightbar
     attr_reader :help
     attr_reader :verbose
     attr_reader :dry
+    attr_reader :daemon
     attr_reader :pi_blaster
     attr_reader :pin
     attr_reader :duration
@@ -27,12 +29,16 @@ module Lightbar
       @help = !!value
     end
 
+    def verbose=(value)
+      @verbose = !!value
+    end
+
     def dry=(value)
       @dry = !!value
     end
 
-    def verbose=(value)
-      @verbose = !!value
+    def daemon=(value)
+      @daemon = !!value
     end
 
     def pi_blaster=(value)

@@ -14,15 +14,8 @@ module Lightbar
       attr_reader :current_tick_at
       attr_reader :delta
 
-      def on_init(event)
-        @last_tick_at = @current_tick_at = Time.now
-        @delta        = 0.0
-        @running      = true
-
-        while @running
-          check_tick
-          wait
-        end
+      def on_start(event)
+        start
       end
 
       def on_stop(event)
@@ -33,11 +26,22 @@ module Lightbar
         stop
       end
 
+      protected
+
+      def start
+        @last_tick_at = @current_tick_at = Time.now
+        @delta        = 0.0
+        @running      = true
+
+        while @running
+          check_tick
+          wait
+        end
+      end
+
       def stop
         @running = false
       end
-
-      protected
 
       def check_tick
         @current_tick_at = Time.now

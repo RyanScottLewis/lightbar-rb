@@ -22,6 +22,7 @@ module Lightbar
         when Event::Initialize then on_init(event)
         when Event::Exit       then on_exit(event)
         when Event::Tick       then on_tick(event)
+        when Event::Start      then on_start(event)
         when Event::Stop       then on_stop(event)
         when Event::Change     then on_change(event)
         end
@@ -34,6 +35,9 @@ module Lightbar
       end
 
       def on_tick(event)
+      end
+
+      def on_start(event)
       end
 
       def on_stop(event)

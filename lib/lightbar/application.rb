@@ -9,6 +9,7 @@ require 'lightbar/subscriber/light_updater'
 require 'lightbar/subscriber/timer'
 require 'lightbar/subscriber/tween'
 require 'lightbar/event/initialize'
+require 'lightbar/event/start'
 require 'lightbar/event/exit'
 
 module Lightbar
@@ -46,6 +47,7 @@ module Lightbar
     def call
       @option_controller.call
       publish(Event::Initialize)
+      publish(Event::Start)
     end
 
   end

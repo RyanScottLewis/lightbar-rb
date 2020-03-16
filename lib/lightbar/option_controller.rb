@@ -12,6 +12,7 @@ module Lightbar
       help:       [ "-h", "--help" ],
       verbose:    [ "-v", "--verbose" ],
       dry:        [ "-D", "--dry-run" ],
+      daemon:     [ "--daemon" ],
       pi_blaster: [ "-b", "--pi-blaster VALUE" ],
       pin:        [ "-p", "--pin VALUE" ],
       duration:   [ "-d", "--duration VALUE" ],
@@ -23,8 +24,9 @@ module Lightbar
       help:       "Display help",
       verbose:    "Display extra information",
       dry:        "Do not perform actions",
+      daemon:     "Daemonize the process",
       pi_blaster: "Pi-Blaster device path    (Default: '%s')",
-      pin:        "Pi-Blaster BCM pin        (Default: %d)",
+      pin:        "Raspberry Pi BCM pin      (Default: %d)",
       duration:   "Tween duration in seconds (Default: %.1f)",
       from:       "Value to tween from       (Default: %.1f)",
       to:         "Value to tween to         (Default: %.1f)",
@@ -40,6 +42,7 @@ module Lightbar
           -h, --help              #{DESCRIPTIONS[:help]}
           -v, --verbose           #{DESCRIPTIONS[:verbose]}
           -D, --dry-run           #{DESCRIPTIONS[:dry]}
+              --daemon            #{DESCRIPTIONS[:daemon]}
           -b, --pi-blaster VALUE  #{DESCRIPTIONS[:pi_blaster]}
           -p, --pin VALUE         #{DESCRIPTIONS[:pin]}
           -d, --duration VALUE    #{DESCRIPTIONS[:duration]}
@@ -68,6 +71,7 @@ module Lightbar
       @parser.on(*OPTIONS[:help],       "") {         options.help       = true }
       @parser.on(*OPTIONS[:verbose],    "") {         options.verbose    = true }
       @parser.on(*OPTIONS[:dry],        "") {         options.dry        = true }
+      @parser.on(*OPTIONS[:daemon],     "") {         options.daemon     = true }
       @parser.on(*OPTIONS[:pi_blaster], "") { |value| options.pi_blaster = value }
       @parser.on(*OPTIONS[:pin],        "") { |value| options.pin        = value }
       @parser.on(*OPTIONS[:duration],   "") { |value| options.duration   = value }
