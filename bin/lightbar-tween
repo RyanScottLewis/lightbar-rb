@@ -5,5 +5,5 @@ if [[ "$#" -ne 3 ]]; then
   exit 1
 fi
 
-dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:$1 double:$2 double:$3
+dbus-send --system --print-reply --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:$1 double:$2 double:$3
 

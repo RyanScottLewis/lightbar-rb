@@ -59,7 +59,7 @@ module Lightbar
       if @options.daemon
 
         begin
-          bus = DBus::SessionBus.instance
+          bus = DBus::SystemBus.instance
 
           service = bus.request_service("org.Lightbar")
           object  = DBusObject.new(self, "/")
@@ -77,7 +77,7 @@ module Lightbar
       else
 
         dbus = begin
-          bus     = DBus::SessionBus.instance
+          bus     = DBus::SystemBus.instance
           service = bus.service("org.Lightbar")
 
           object = service.object("/")
