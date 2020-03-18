@@ -7,13 +7,13 @@ module Lightbar
 
     extend Forwardable
 
-    def initialize(application, path)
-      @application = application
+    def initialize(publisher, path)
+      @publisher = publisher
 
       super(path)
     end
 
-    def_delegators :@application, :publish
+    def_delegators :@publisher, :publish
 
     dbus_interface "org.Lightbar" do
 

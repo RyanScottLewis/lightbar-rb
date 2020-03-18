@@ -6,6 +6,12 @@ module Lightbar
     # Update the light PWM value on value changes via pi-blaster
     class LightUpdater < Base
 
+      def initialize(publisher, options)
+        super(publisher)
+
+        @options = options
+      end
+
       def on_start(event)
         check_pi_blaster
         open_pi_blaster
@@ -22,13 +28,13 @@ module Lightbar
       protected
 
       def open_pi_blaster
-        @io = File.open(options.pi_blaster, "w") unless options.dry
+        @io = File.open(@options.pi_blaster, "w") unless @options.dry
       end
 
       def check_pi_blaster
-        return if options.dry || File.exists?(options.pi_blaster)
+        return if @options.dry || File.exists?(@options.pi_blaster)
 
-        @logger.fatal("pi-blaster path does not exist: #{options.pi_blaster}")
+        @logger.fatal("pi-blaster path does not exist: #{@options.pi_blaster}")
         exit(1)
       end
 
@@ -37,9 +43,9 @@ module Lightbar
       end
 
       def update_value(value)
-        return if options.dry || @io.nil?
+        return if @options.dry || @io.nil?
 
-        @io.puts("#{options.pin}=#{value}")
+        @io.puts("#{@options.pin}=#{value}")
         @io.flush
       end
 

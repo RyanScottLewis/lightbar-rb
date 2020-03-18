@@ -32,22 +32,16 @@ module Lightbar
       @options           = Options.new
       @logger            = Logger.new(STDOUT)
       @publisher         = Publisher.new
-      @option_controller = OptionController.new(self)
+      @option_controller = OptionController.new(@arguments, @options)
       @message_bus       = DBus::Main.new
 
-      Subscriber::Signal.new(self)
-      Subscriber::EventLogger.new(self)
-      Subscriber::MessageBus.new(self)
-      Subscriber::LightUpdater.new(self)
-      Subscriber::Tween.new(self)
-      Subscriber::Timer.new(self)
+      Subscriber::Signal.new(@publisher)
+      Subscriber::EventLogger.new(@publisher, @options)
+      Subscriber::MessageBus.new(@publisher, @message_bus)
+      Subscriber::LightUpdater.new(@publisher, @options)
+      Subscriber::Tween.new(@publisher)
+      Subscriber::Timer.new(@publisher)
     end
-
-    attr_reader :arguments
-    attr_reader :options
-    attr_reader :logger
-    attr_reader :publisher
-    attr_reader :message_bus
 
     def_delegators :@publisher, :publish
 
@@ -62,7 +56,7 @@ module Lightbar
           bus = DBus::SystemBus.instance
 
           service = bus.request_service("org.Lightbar")
-          object  = DBusObject.new(self, "/")
+          object  = DBusObject.new(@publisher, "/")
 
           service.export(object)
 

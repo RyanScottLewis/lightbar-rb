@@ -67,15 +67,14 @@ module Lightbar
 
     STR
 
-    def initialize(application)
-      @application = application
+    def initialize(arguments, options)
+      @arguments   = arguments
+      @options     = options
       @parser      = OptionParser.new
-      @help        = HELP % [options.pi_blaster, options.pin, options.duration, options.from, options.to]
+      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.from, @options.to]
 
       define_options
     end
-
-    def_delegators :@application, :arguments, :options
 
     def call
       parse_options
@@ -85,23 +84,23 @@ module Lightbar
     protected
 
     def define_options
-      @parser.on(*OPTIONS[:help],       "") {         options.help       = true }
-      @parser.on(*OPTIONS[:verbose],    "") {         options.verbose    = true }
-      @parser.on(*OPTIONS[:dry],        "") {         options.dry        = true }
-      @parser.on(*OPTIONS[:daemon],     "") {         options.daemon     = true }
-      @parser.on(*OPTIONS[:pi_blaster], "") { |value| options.pi_blaster = value }
-      @parser.on(*OPTIONS[:pin],        "") { |value| options.pin        = value }
-      @parser.on(*OPTIONS[:duration],   "") { |value| options.duration   = value }
-      @parser.on(*OPTIONS[:from],       "") { |value| options.from       = value }
-      @parser.on(*OPTIONS[:to],         "") { |value| options.to         = value }
+      @parser.on(*OPTIONS[:help],       "") {         @options.help       = true }
+      @parser.on(*OPTIONS[:verbose],    "") {         @options.verbose    = true }
+      @parser.on(*OPTIONS[:dry],        "") {         @options.dry        = true }
+      @parser.on(*OPTIONS[:daemon],     "") {         @options.daemon     = true }
+      @parser.on(*OPTIONS[:pi_blaster], "") { |value| @options.pi_blaster = value }
+      @parser.on(*OPTIONS[:pin],        "") { |value| @options.pin        = value }
+      @parser.on(*OPTIONS[:duration],   "") { |value| @options.duration   = value }
+      @parser.on(*OPTIONS[:from],       "") { |value| @options.from       = value }
+      @parser.on(*OPTIONS[:to],         "") { |value| @options.to         = value }
     end
 
     def parse_options
-      @parser.parse!(arguments)
+      @parser.parse!(@arguments)
     end
 
     def check_help
-      return unless options.help
+      return unless @options.help
 
       puts @help
       exit

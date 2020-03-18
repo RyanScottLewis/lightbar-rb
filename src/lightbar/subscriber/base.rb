@@ -15,14 +15,13 @@ module Lightbar
 
       extend Forwardable
 
-      def initialize(application)
-        @application = application
+      def initialize(publisher)
+        @publisher = publisher
 
-        publisher.subscribe(self)
+        @publisher.subscribe(self)
       end
 
-      def_delegators :@application, :options, :logger, :publisher, :message_bus
-      def_delegators :publisher, :publish
+      def_delegators :@publisher, :publish
 
       def on(event)
         case event
@@ -60,7 +59,7 @@ module Lightbar
       protected
 
       def unsubscribe
-        publisher.unsubscribe(self)
+        @publisher.unsubscribe(self)
       end
 
     end
