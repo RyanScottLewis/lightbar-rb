@@ -21,7 +21,6 @@ GEM      = gem
 INSTALL  = install
 MKDIR    = mkdir -p
 MV       = mv
-CHECKSUM = sha256sum
 
 CLEAN = $(BUILDDIR)
 
@@ -38,7 +37,6 @@ install:
 $(GEM_PATH): $(GEM_SOURCES) $(UNIT_SOURCES) Makefile | $(PKGDIR)/
 	$(GEM) build $(GEM_SPEC)
 	$(MV) $(GEM_FILENAME) $(PKGDIR)
-	$(CHECKSUM) $(GEM_PATH)
 
 $(PKGDIR)/:
 	$(MKDIR) $@
