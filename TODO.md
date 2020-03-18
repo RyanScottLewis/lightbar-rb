@@ -6,4 +6,7 @@
     it should just wait for the bus and tween once it's found
 * Add `gem install` to `make install`?
 * Do not show shasums after build, not needed anymore since hosted on GitHub
+* Decoupling!
+  * Everything depends on Application
+  * Subscribers should depend on the publisher and various injected dependencies
 
