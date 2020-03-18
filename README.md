@@ -21,7 +21,7 @@ $ git clone https://github.com/RyanScottLewis/lightbar-rb.git
 $ cd lightbar-rb
 $ make
 $ gem install pkg/lightbar-x-x-x.gem
-# make install
+$ make install
 ```
 
 ### Pacman
