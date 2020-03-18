@@ -32,7 +32,7 @@ $ cd lightbar-pacman
 $ makepkg -i
 ```
 
-### Post-Install
+## Post-Install
 
 ### Systemd Units
 
