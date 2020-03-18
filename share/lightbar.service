@@ -1,8 +1,13 @@
 [Unit]
 Description=Lightbar Daemon
+Requires=pi-blaster.service
+Requires=dbus.service
 After=pi-blaster.service
+After=dbus.service
 
 [Service]
+Type=dbus
+BusName=org.Lightbar
 EnvironmentFile=-/etc/default/lightbar
 User=root
 ExecStart=/usr/bin/lightbar --daemon $DAEMON_OPTS
@@ -10,4 +15,3 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
-

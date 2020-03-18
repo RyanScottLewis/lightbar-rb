@@ -1,0 +1,20 @@
+[Unit]
+Description=Lightbar fade on startup/shutdown
+Requires=lightbar.service
+After=lightbar.service
+Before=reboot.target shutdown.target halt.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/lightbar-tween 0 1 1
+ExecStop=/usr/bin/lightbar-tween 1 0 1
+Restart=on-failure
+KillMode=none
+TimeoutStartSec=5
+TimeoutStopSec=30
+RestartSec=5
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
