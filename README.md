@@ -67,16 +67,44 @@ DAEMON_OPTS="--gpio 4,17,18,27,21,22,23,24,25"
 
 ## Usage
 
-Tween PWM output value from 0 to 1 over 5 seconds through Pi-Blaster on BCM pin 16:
+### Simple
+
+Tween PWM output value from 0 to 1 over 5 seconds through Pi-Blaster on BCM pin 18:
 
 ```sh
-$ lightbar --from 0 --to 1 --duration 5 --pin 16
+$ lightbar --from 0 --to 1 --duration 5 --pin 18
 ```
 
-Run as daemon (to avoid Ruby startup times):
+### Daemon
+
+Run as daemon (to avoid Ruby startup times on slower systems):
 
 ```sh
-$ lightbar --from 0 --to 1 --duration 5 --pin 16
+$ lightbar --daemon
+```
+
+Then in another terminal (or same one if you CTRL+Z then run `bg` or run with a trailing `&`)
+
+```sh
+$ lightbar --from 0 --to 1 --duration 5 --pin 18
+```
+
+This causes the application to communicate with the daemon over the system D-Bus.
+
+However, this still includes the same Ruby startup times, defeating the purpose of daemonizing.  
+To get past that startup time hurdle, we ship with a shell script which simply calls the tweening
+function over D-Bus directly, bypassing having to use Ruby to cause the tweening whatsoever.
+
+For example, the above example is equivalent to the following:
+
+```sh
+$ dbus-send --system --print-reply --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:0 double:1 double:5
+```
+
+For convienence, we profile the `lightbar-tween` script that provides the same functionality:
+
+```sh
+$ lightbar-tween 0 1 5
 ```
 
 ## Level Shifter
