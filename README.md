@@ -86,7 +86,7 @@ $ lightbar --daemon
 Then in another terminal (or same one if you CTRL+Z then run `bg` or run with a trailing `&`)
 
 ```sh
-$ lightbar --from 0 --to 1 --duration 5 --pin 18
+$ lightbar --from 0 --to 1 --duration 5
 ```
 
 This causes the application to communicate with the daemon over the system D-Bus.
