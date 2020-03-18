@@ -52,6 +52,10 @@ as well as allows any user of the `lightbar` group to send messages to it.
 So, if you'd like a user other than root to control the lightbar, simply add them to the `lightbar`
 group.
 
+If you intend to add a user to the `lightbar` group have them control the lightbar within the same
+session, you need to reload the D-Bus configuration.  
+You can do this by running: `systemctl reload dbus`
+
 ### Pi-Blaster Configuration
 
 Pi-Blaster is required for use with Lightbar. The `lightbar` Systemd service requires Pi-Blaster as
