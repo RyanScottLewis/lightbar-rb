@@ -57,10 +57,12 @@ module Lightbar
       If you want a tween to occur as fast as possible, use the `dbus-send` executable:
 
         dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:0 double:1 double:1
+        dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween_to double:1 double:1
 
-      Or use the `lightbar-send` script:
+      Or use the `lightbar-msg` script:
 
-        lightbar-send tween 0 0 1
+        lightbar-msg tween 0 0 1
+        lightbar-msg tween_to 0 1
 
       Dependencies:
 

@@ -9,5 +9,4 @@
   * `Controller::LocalTween`
   * `Controller::StartDaemon`
   * Maybe rename `Controller` to `Operation`
-* Rename `lightbar-tween` to `lightbar-msg`
 
