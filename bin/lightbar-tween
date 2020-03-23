@@ -1,9 +1,48 @@
 #!/bin/sh
 
-if [[ "$#" -ne 3 ]]; then
-  echo "Usage: lightbar-tween FROM TO DURATION"
+print_usage() {
+  echo "Usage: lightbar-tween METHOD ARGUMENTS"
+  echo "       lightbar-tween tween FROM TO DURATION [BUS]"
+  echo "       lightbar-tween tween_to TO DURATION [BUS]"
+}
+
+if [[ "$#" -lt 1 ]]; then
+  print_usage
   exit 1
 fi
 
-dbus-send --system --print-reply --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:$1 double:$2 double:$3
+command="dbus-send --print-reply --type=method_call --dest=org.Lightbar"
+
+case $1 in
+  tween)
+    shift
+    if [[ "$#" -eq 4 ]] && [ "$4" == "session" ]; then
+      command="$command --session"
+    else
+      command="$command --system"
+    fi
+
+    command="$command / org.Lightbar.tween double:$1 double:$2 double:$3"
+
+    $command
+    ;;
+  tween_to)
+    shift
+    if [[ "$#" -eq 3 ]] && [ "$3" == "session" ]; then
+      command="$command --session"
+    else
+      command="$command --system"
+    fi
+
+    command="$command / org.Lightbar.tween_to double:$1 double:$2"
+
+    $command
+    ;;
+  *)
+    echo "Error: Unknown method '$1'"
+
+    print_usage
+    exit 1
+    ;;
+esac
 
