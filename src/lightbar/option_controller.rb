@@ -19,9 +19,10 @@ module Lightbar
       from:       [ "-f", "--from VALUE" ],
       to:         [ "-t", "--to VALUE" ],
       bus:        [ "--bus VALUE" ],
+      exponent:   [ "-e", "--exponent VALUE" ],
     }
 
-    DESCRIPTIONS = {
+    DESCRIPTIONS = { # TODO: Just merge into HELP, why is this out here?
       help:       "Display help",
       verbose:    "Display extra information",
       dry:        "Do not perform actions",
@@ -32,6 +33,7 @@ module Lightbar
       from:       "Value to tween from",
       to:         "Value to tween to           (Default: %.1f)",
       bus:        "D-Bus system or session bus (Default: '%s')",
+      exponent:   "Tweening curve exponent     (Default: %d)",
     }
 
     HELP = <<~STR
@@ -51,6 +53,7 @@ module Lightbar
           -f, --from VALUE        #{DESCRIPTIONS[:from]}
           -t, --to VALUE          #{DESCRIPTIONS[:to]}
               --bus VALUE         #{DESCRIPTIONS[:bus]}
+          -e, --exponent VALUE    #{DESCRIPTIONS[:exponent]}
 
       Daemonization:
 
@@ -68,6 +71,19 @@ module Lightbar
           lightbar-msg tween 0 0 1
           lightbar-msg tween_to 0 1
 
+      Tweening Curves:
+
+        By default, tweening is done linearly. This can be modified using the `--exponent` option.
+
+        Will apply the formula following formula to the tween:
+
+          `x ^ e`
+
+          Where:
+
+          > x = Normalized tween percentage (0-1)
+          > e = Exponent value given by `exponent`
+
       Dependencies:
 
         * ruby
@@ -81,7 +97,7 @@ module Lightbar
       @arguments   = arguments
       @options     = options
       @parser      = OptionParser.new
-      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.to, @options.bus]
+      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.to, @options.bus, @options.exponent]
 
       define_options
     end
@@ -104,6 +120,7 @@ module Lightbar
       @parser.on(*OPTIONS[:from],       "") { |value| @options.from       = value }
       @parser.on(*OPTIONS[:to],         "") { |value| @options.to         = value }
       @parser.on(*OPTIONS[:bus],        "") { |value| @options.bus        = value }
+      @parser.on(*OPTIONS[:exponent],   "") { |value| @options.exponent   = value }
     end
 
     def parse_options

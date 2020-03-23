@@ -7,6 +7,12 @@ module Lightbar
     # Linear interpolation over a set duration.
     class Tween < Base
 
+      def initialize(publisher, options)
+        super(publisher)
+
+        @options = options
+      end
+
       def on_tween(event)
         setup_variables(event)
         start_timer
@@ -45,6 +51,7 @@ module Lightbar
       def update_value
         ratio     = @time / @duration                 # Normalize
         @value    = (1 - ratio) * @from + ratio * @to # Precise lerp
+        @value    = @value ** @options.exponent
         low, high = [@from, @to].sort                 # For clamping
         @value    = @value.clamp(low, high)           # Clamp value to limits
       end

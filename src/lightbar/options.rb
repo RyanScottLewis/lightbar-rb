@@ -14,6 +14,7 @@ module Lightbar
       @from       = nil
       @to         = 1.0
       @bus        = :system
+      @exponent   = 1
     end
 
     attr_reader :help
@@ -26,6 +27,7 @@ module Lightbar
     attr_reader :from
     attr_reader :to
     attr_reader :bus
+    attr_reader :exponent
 
     # TODO: This should all be somewhere else really
 
@@ -67,8 +69,16 @@ module Lightbar
 
     def bus=(value)
       value = value.to_sym
+      return unless %i[system session].include?(value)
 
-      @bus = %i[system session].include?(value) ? value : :system
+      @bus = value
+    end
+
+    def exponent=(value)
+      value = value.to_i
+      return if @exponent < 1
+
+      @exponent = value
     end
 
   end
