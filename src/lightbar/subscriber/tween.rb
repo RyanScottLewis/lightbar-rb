@@ -19,13 +19,19 @@ module Lightbar
         stop_timer_if_needed
       end
 
+      def on_stop(event)
+        @from = @to
+      end
+
       protected
 
       def setup_variables(event)
-        @from     = event.from
+        @from     = event.from unless event.from.nil?
         @to       = event.to
         @duration = event.duration
         @time     = 0.0
+
+        @from ||= 0.0
       end
 
       def start_timer

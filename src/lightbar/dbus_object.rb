@@ -21,6 +21,10 @@ module Lightbar
         publish(Event::Tween, from, to, duration)
       end
 
+      dbus_method :tween_to, "in to:d, in duration:d" do |to, duration|
+        publish(Event::Tween, nil, to, duration)
+      end
+
     end
 
   end

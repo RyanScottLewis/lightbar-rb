@@ -28,7 +28,7 @@ module Lightbar
       pi_blaster: "Pi-Blaster device path    (Default: '%s')",
       pin:        "Raspberry Pi BCM pin      (Default: %d)",
       duration:   "Tween duration in seconds (Default: %.1f)",
-      from:       "Value to tween from       (Default: %.1f)",
+      from:       "Value to tween from",
       to:         "Value to tween to         (Default: %.1f)",
     }
 
@@ -71,7 +71,7 @@ module Lightbar
       @arguments   = arguments
       @options     = options
       @parser      = OptionParser.new
-      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.from, @options.to]
+      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.to]
 
       define_options
     end

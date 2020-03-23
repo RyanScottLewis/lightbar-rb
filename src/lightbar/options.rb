@@ -11,7 +11,7 @@ module Lightbar
       @pi_blaster = "/dev/pi-blaster"
       @pin        = 16
       @duration   = 1.0
-      @from       = 0.0
+      @from       = nil
       @to         = 1.0
     end
 
