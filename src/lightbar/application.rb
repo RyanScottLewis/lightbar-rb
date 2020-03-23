@@ -53,7 +53,10 @@ module Lightbar
       if @options.daemon
 
         begin
-          bus = DBus::SystemBus.instance
+          bus = case @options.bus
+          when :system  then DBus::SystemBus.instance
+          when :session then DBus::SessionBus.instance
+          end
 
           service = bus.request_service("org.Lightbar")
           object  = DBusObject.new(@publisher, "/")
@@ -71,10 +74,13 @@ module Lightbar
       else
 
         begin
-          bus     = DBus::SystemBus.instance
-          service = bus.service("org.Lightbar")
+          bus = case @options.bus
+          when :system  then DBus::SystemBus.instance
+          when :session then DBus::SessionBus.instance
+          end
 
-          object = service.object("/")
+          service = bus.service("org.Lightbar")
+          object  = service.object("/")
           object.default_iface = "org.Lightbar"
 
           @logger.info("Attempting to run through D-Bus.")

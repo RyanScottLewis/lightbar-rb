@@ -18,6 +18,7 @@ module Lightbar
       duration:   [ "-d", "--duration VALUE" ],
       from:       [ "-f", "--from VALUE" ],
       to:         [ "-t", "--to VALUE" ],
+      bus:        [ "--bus VALUE" ],
     }
 
     DESCRIPTIONS = {
@@ -25,11 +26,12 @@ module Lightbar
       verbose:    "Display extra information",
       dry:        "Do not perform actions",
       daemon:     "Daemonize the process",
-      pi_blaster: "Pi-Blaster device path    (Default: '%s')",
-      pin:        "Raspberry Pi BCM pin      (Default: %d)",
-      duration:   "Tween duration in seconds (Default: %.1f)",
+      pi_blaster: "Pi-Blaster device path      (Default: '%s')",
+      pin:        "Raspberry Pi BCM pin        (Default: %d)",
+      duration:   "Tween duration in seconds   (Default: %.1f)",
       from:       "Value to tween from",
-      to:         "Value to tween to         (Default: %.1f)",
+      to:         "Value to tween to           (Default: %.1f)",
+      bus:        "D-Bus system or session bus (Default: '%s')",
     }
 
     HELP = <<~STR
@@ -48,6 +50,7 @@ module Lightbar
           -d, --duration VALUE    #{DESCRIPTIONS[:duration]}
           -f, --from VALUE        #{DESCRIPTIONS[:from]}
           -t, --to VALUE          #{DESCRIPTIONS[:to]}
+              --bus VALUE         #{DESCRIPTIONS[:bus]}
 
       When daemonized, methods are called over D-Bus.
       Unfortunately this is written in Ruby and it adds some startup overhead.
@@ -64,6 +67,7 @@ module Lightbar
         * ruby
         * ruby-dbus
         * pi-blaster
+        * d-bus
 
     STR
 
@@ -71,7 +75,7 @@ module Lightbar
       @arguments   = arguments
       @options     = options
       @parser      = OptionParser.new
-      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.to]
+      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.to, @options.bus]
 
       define_options
     end
@@ -93,6 +97,7 @@ module Lightbar
       @parser.on(*OPTIONS[:duration],   "") { |value| @options.duration   = value }
       @parser.on(*OPTIONS[:from],       "") { |value| @options.from       = value }
       @parser.on(*OPTIONS[:to],         "") { |value| @options.to         = value }
+      @parser.on(*OPTIONS[:bus],        "") { |value| @options.bus        = value }
     end
 
     def parse_options

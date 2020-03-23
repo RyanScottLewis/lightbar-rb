@@ -13,6 +13,7 @@ module Lightbar
       @duration   = 1.0
       @from       = nil
       @to         = 1.0
+      @bus        = :system
     end
 
     attr_reader :help
@@ -24,6 +25,9 @@ module Lightbar
     attr_reader :duration
     attr_reader :from
     attr_reader :to
+    attr_reader :bus
+
+    # TODO: This should all be somewhere else really
 
     def help=(value)
       @help = !!value
@@ -59,6 +63,12 @@ module Lightbar
 
     def to=(value)
       @to = value.to_f
+    end
+
+    def bus=(value)
+      value = value.to_sym
+
+      @bus = %i[system session].include?(value) ? value : :system
     end
 
   end
