@@ -14,4 +14,8 @@
   * Squared or cubed
 * Docs
   * LED inverting level shifter schematic
+* D-bus
+  * Allow passing exponent, pin, pi-blaster paths?
+  * CamelCase method names?
+  * Better process for checking for d-bus failures
 
