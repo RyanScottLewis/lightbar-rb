@@ -52,17 +52,21 @@ module Lightbar
           -t, --to VALUE          #{DESCRIPTIONS[:to]}
               --bus VALUE         #{DESCRIPTIONS[:bus]}
 
-      When daemonized, methods are called over D-Bus.
-      Unfortunately this is written in Ruby and it adds some startup overhead.
-      If you want a tween to occur as fast as possible, use the `dbus-send` executable:
+      Daemonization:
 
-        dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:0 double:1 double:1
-        dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween_to double:1 double:1
+        When daemonized, methods are called over D-Bus.
+        The daemon can run on either the system or session bus using the `--bus` option.
 
-      Or use the `lightbar-msg` script:
+        Unfortunately this is written in Ruby and it adds some startup overhead.
+        If you want a tween to occur as fast as possible, use the `dbus-send` executable:
 
-        lightbar-msg tween 0 0 1
-        lightbar-msg tween_to 0 1
+          dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:0 double:1 double:1
+          dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween_to double:1 double:1
+
+        Or use the `lightbar-msg` script:
+
+          lightbar-msg tween 0 0 1
+          lightbar-msg tween_to 0 1
 
       Dependencies:
 
