@@ -9,4 +9,9 @@
   * `Controller::LocalTween`
   * `Controller::StartDaemon`
   * Maybe rename `Controller` to `Operation`
+* Allow different tweening curves
+  * The change from 0.01 to 0.1 is about as much as 0.1 to 1
+  * Squared or cubed
+* Docs
+  * LED inverting level shifter schematic
 
