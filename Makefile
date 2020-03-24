@@ -30,7 +30,6 @@ build: $(GEM_PATH)
 
 install:
 	$(INSTALL) -D -m644 "share/lightbar.service"      "$(DESTDIR)/usr/lib/systemd/system/lightbar.service"
-	$(INSTALL) -D -m644 "share/lightbar-fade.service" "$(DESTDIR)/usr/lib/systemd/system/lightbar-fade.service"
 	$(INSTALL) -D -m644 "share/dbus.conf"             "$(DESTDIR)/etc/dbus-1/system.d/lightbar.conf"
 	$(INSTALL) -D -m755 "bin/lightbar-msg"            "$(DESTDIR)/usr/bin/lightbar-msg"
 
