@@ -1,4 +1,5 @@
 require 'lightbar/subscriber/base'
+require 'lightbar/api/pi_blaster'
 
 module Lightbar
   module Subscriber
@@ -6,47 +7,38 @@ module Lightbar
     # Update the light PWM value on value changes via pi-blaster
     class LightUpdater < Base
 
-      def initialize(publisher, options)
+      def initialize(publisher, options, logger)
         super(publisher)
 
-        @options = options
+        @options    = options
+        @logger     = logger
+        @pi_blaster = API::PiBlaster.new
       end
 
       def on_start(event)
-        check_pi_blaster
-        open_pi_blaster
+        return if @options.dry
+
+        unless @pi_blaster.open(@options.pi_blaster)
+          @logger.fatal("Pi-blaster path does not exist")
+
+          exit 1
+        end
       end
 
       def on_change(event)
-        update_value(event.value)
+        return if @options.dry
+
+        unless @pi_blaster.update(@options.pin, event.value)
+          @logger.warn("Could not update Pi-blaster pin value")
+        end
       end
 
       def on_stop(event)
-        close_pi_blaster
-      end
+        return if @options.dry
 
-      protected
-
-      def open_pi_blaster
-        @io = File.open(@options.pi_blaster, "w") unless @options.dry
-      end
-
-      def check_pi_blaster
-        return if @options.dry || File.exists?(@options.pi_blaster)
-
-        @logger.fatal("pi-blaster path does not exist: #{@options.pi_blaster}")
-        exit(1)
-      end
-
-      def close_pi_blaster
-        @io.close unless @io.nil?
-      end
-
-      def update_value(value)
-        return if @options.dry || @io.nil?
-
-        @io.puts("#{@options.pin}=#{value}")
-        @io.flush
+        unless @pi_blaster.close
+          @logger.warn("Pi-blaster IO is not open")
+        end
       end
 
     end

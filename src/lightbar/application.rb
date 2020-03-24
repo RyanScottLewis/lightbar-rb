@@ -38,7 +38,7 @@ module Lightbar
       Subscriber::Signal.new(@publisher)
       Subscriber::EventLogger.new(@publisher, @options)
       Subscriber::MessageBus.new(@publisher, @message_bus)
-      Subscriber::LightUpdater.new(@publisher, @options)
+      Subscriber::LightUpdater.new(@publisher, @options, @logger)
       Subscriber::Tween.new(@publisher, @options)
       Subscriber::Timer.new(@publisher)
     end
