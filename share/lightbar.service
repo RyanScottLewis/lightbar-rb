@@ -10,12 +10,11 @@ Type=dbus
 BusName=org.Lightbar
 EnvironmentFile=-/etc/default/lightbar
 User=root
-ExecStart=/usr/bin/lightbar --daemon $DAEMON_OPTS
+ExecStart=/usr/bin/lightbar $DAEMON_OPTS
 Restart=always
 TimeoutStartSec=5
 TimeoutStopSec=30
 RestartSec=5
-#KillMode=none
 
 [Install]
 WantedBy=multi-user.target
