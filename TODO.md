@@ -12,4 +12,5 @@
 * Locking
   * Since everything is threaded now, running `lightbar-msg` returns immediently
   * 2 tweens can happen simultaniously
+* Wait for all dbus server to start before running first tween (EpochTweener)
 
