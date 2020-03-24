@@ -20,11 +20,7 @@ module Lightbar
 
         retrieve_bus
         export_service
-
-        @logger.info("Starting D-Bus daemon")
-
-        @message_bus << @bus
-        @message_bus.run
+        start_run_loop
       end
 
       def on_exit(event)
@@ -46,6 +42,13 @@ module Lightbar
         @logger.fatal("Unable to create D-Bus session service/object.")
 
         exit 1
+      end
+
+      def start_run_loop
+        @logger.info("Starting D-Bus daemon")
+
+        @message_bus << @bus
+        @message_bus.run
       end
 
     end
