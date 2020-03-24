@@ -2,8 +2,8 @@
 
 print_usage() {
   echo "Usage: lightbar-tween METHOD ARGUMENTS"
-  echo "       lightbar-tween tween FROM TO DURATION [BUS]"
-  echo "       lightbar-tween tween_to TO DURATION [BUS]"
+  echo "       lightbar-tween tween FROM TO [BUS]"
+  echo "       lightbar-tween tween_to TO [BUS]"
 }
 
 if [[ "$#" -lt 1 ]]; then
@@ -16,25 +16,25 @@ command="dbus-send --print-reply --type=method_call --dest=org.Lightbar"
 case $1 in
   tween)
     shift
-    if [[ "$#" -eq 4 ]] && [ "$4" == "session" ]; then
-      command="$command --session"
-    else
-      command="$command --system"
-    fi
-
-    command="$command / org.Lightbar.tween double:$1 double:$2 double:$3"
-
-    $command
-    ;;
-  tween_to)
-    shift
     if [[ "$#" -eq 3 ]] && [ "$3" == "session" ]; then
       command="$command --session"
     else
       command="$command --system"
     fi
 
-    command="$command / org.Lightbar.tween_to double:$1 double:$2"
+    command="$command / org.Lightbar.tween double:$1 double:$2"
+
+    $command
+    ;;
+  tween_to)
+    shift
+    if [[ "$#" -eq 2 ]] && [ "$2" == "session" ]; then
+      command="$command --session"
+    else
+      command="$command --system"
+    fi
+
+    command="$command / org.Lightbar.tween_to double:$1"
 
     $command
     ;;

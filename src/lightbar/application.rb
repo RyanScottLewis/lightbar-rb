@@ -86,14 +86,14 @@ module Lightbar
           @logger.info("Attempting to run through D-Bus.")
 
           if @options.from.nil?
-            object.tween_to(@options.to, @options.duration)
+            object.tween_to(@options.to)
           else
-            object.tween(@options.from, @options.to, @options.duration)
+            object.tween(@options.from, @options.to)
           end
         rescue DBus::Error
           @logger.info("Attempting to run in current process.")
 
-          publish(Event::Tween, @options.from, @options.to, @options.duration)
+          publish(Event::Tween, @options.from, @options.to)
         end
 
       end

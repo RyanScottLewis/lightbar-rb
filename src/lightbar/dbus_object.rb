@@ -17,12 +17,12 @@ module Lightbar
 
     dbus_interface "org.Lightbar" do
 
-      dbus_method :tween, "in from:d, in to:d, in duration:d" do |from, to, duration|
-        publish(Event::Tween, from, to, duration)
+      dbus_method :tween, "in from:d, in to:d" do |from, to|
+        publish(Event::Tween, from, to)
       end
 
-      dbus_method :tween_to, "in to:d, in duration:d" do |to, duration|
-        publish(Event::Tween, nil, to, duration)
+      dbus_method :tween_to, "in to:d" do |to|
+        publish(Event::Tween, nil, to)
       end
 
     end

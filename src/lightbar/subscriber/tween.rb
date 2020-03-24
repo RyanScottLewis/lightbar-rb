@@ -34,7 +34,6 @@ module Lightbar
       def setup_variables(event)
         @from     = event.from unless event.from.nil?
         @to       = event.to
-        @duration = event.duration
         @time     = 0.0
 
         @from ||= 0.0
@@ -49,7 +48,7 @@ module Lightbar
       end
 
       def update_value
-        ratio     = @time / @duration                 # Normalize
+        ratio     = @time / @options.duration         # Normalize
         @value    = (1 - ratio) * @from + ratio * @to # Precise lerp
         @value    = modify_value(@value)              # Curve modifier
         low, high = [@from, @to].sort                 # For clamping
@@ -61,7 +60,7 @@ module Lightbar
       end
 
       def stop_timer_if_needed
-        publish(Event::Stop) if @time > @duration
+        publish(Event::Stop) if @time > @options.duration
       end
 
       def modify_value(x)
