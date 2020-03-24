@@ -16,13 +16,13 @@ module Lightbar
         help:       [ "-h", "--help" ],
         verbose:    [ "-v", "--verbose" ],
         dry:        [ "-D", "--dry-run" ],
-        daemon:     [ "--daemon" ],
-        pi_blaster: [ "-b", "--pi-blaster VALUE" ],
+        daemon:     [ "--daemon" ], # TODO: REMOVE
+        pi_blaster: [ "-P", "--pi-blaster VALUE" ],
         pin:        [ "-p", "--pin VALUE" ],
         duration:   [ "-d", "--duration VALUE" ],
         from:       [ "-f", "--from VALUE" ],
         to:         [ "-t", "--to VALUE" ],
-        bus:        [ "--bus VALUE" ],
+        bus:        [ "-b", "--bus VALUE" ],
         curve:      [ "-c", "--curve VALUE" ],
       }
 
@@ -37,8 +37,8 @@ module Lightbar
             -v, --verbose                 Display extra information
             -D, --dry-run                 Do not perform actions
                 --daemon                  Daemonize the process
-                --bus        VALUE        D-Bus system or session bus (Default: '%s')
-            -b, --pi-blaster VALUE        Pi-Blaster device path      (Default: '%s')
+            -b, --bus        VALUE        D-Bus system or session bus (Default: '%s')
+            -P, --pi-blaster VALUE        Pi-Blaster device path      (Default: '%s')
             -p, --pin        VALUE        Raspberry Pi BCM pin        (Default: %d)
             -d, --duration   VALUE        Tween duration in seconds   (Default: %.1f)
             -c, --curve      VALUE        Tween curve                 (Default: '%s')
