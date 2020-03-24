@@ -1,14 +1,10 @@
+require 'lightbar/concern/class_callable'
+
 module Lightbar
   module Operation
     class Base
 
-      def self.call(*arguments)
-        new(*arguments).call
-      end
-
-      def call
-        raise NoMethodError
-      end
+      extend Concern::ClassCallable
 
     end
   end
