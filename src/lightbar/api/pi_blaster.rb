@@ -3,7 +3,7 @@ module Lightbar
     class PiBlaster
 
       def initialize
-        @io   = nil
+        @io = nil
       end
 
       def open(path)
