@@ -19,8 +19,6 @@ module Lightbar
         pi_blaster: [ "-P", "--pi-blaster VALUE" ],
         pin:        [ "-p", "--pin VALUE" ],
         duration:   [ "-d", "--duration VALUE" ],
-        from:       [ "-f", "--from VALUE" ],
-        to:         [ "-t", "--to VALUE" ],
         bus:        [ "-b", "--bus VALUE" ],
         curve:      [ "-c", "--curve VALUE" ],
       }
@@ -40,8 +38,6 @@ module Lightbar
             -p, --pin        VALUE        Raspberry Pi BCM pin        (Default: %d)
             -d, --duration   VALUE        Tween duration in seconds   (Default: %.1f)
             -c, --curve      VALUE        Tween curve                 (Default: '%s')
-            -f, --from       VALUE        Tween starting value
-            -t, --to         VALUE        Tween ending value          (Default: %.1f)
 
         Daemonization:
 
@@ -107,7 +103,6 @@ module Lightbar
           @options.pin,
           @options.duration,
           @options.curve,
-          @options.to,
         ]
       end
 
@@ -120,8 +115,6 @@ module Lightbar
         @parser.on(*OPTIONS[:pin],        "") { |value| @options.pin        = value }
         @parser.on(*OPTIONS[:duration],   "") { |value| @options.duration   = value }
         @parser.on(*OPTIONS[:curve],      "") { |value| @options.curve      = value }
-        @parser.on(*OPTIONS[:from],       "") { |value| @options.from       = value }
-        @parser.on(*OPTIONS[:to],         "") { |value| @options.to         = value }
       end
 
       def parse_options
