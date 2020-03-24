@@ -4,16 +4,16 @@ require 'lightbar/options'
 require 'lightbar/option_controller'
 require 'lightbar/publisher'
 
-require 'lightbar/subscriber/signal'
+require 'lightbar/subscriber/signaller'
 require 'lightbar/subscriber/event_logger'
 require 'lightbar/subscriber/light_updater'
 require 'lightbar/subscriber/timer'
-require 'lightbar/subscriber/tween'
-require 'lightbar/subscriber/dbus_server'
-require 'lightbar/subscriber/dbus_client'
+require 'lightbar/subscriber/tweener'
 require 'lightbar/subscriber/retroarch_poller'
 require 'lightbar/subscriber/retroarch_tweener'
-require 'lightbar/subscriber/local_execution'
+require 'lightbar/subscriber/dbus_server'
+#require 'lightbar/subscriber/dbus_client'
+#require 'lightbar/subscriber/local_execution'
 
 require 'lightbar/event/initialize'
 require 'lightbar/event/start'
@@ -34,10 +34,10 @@ module Lightbar
       @publisher         = Publisher.new
       @option_controller = OptionController.new(@arguments, @options)
 
-      Subscriber::Signal.new(@publisher)
-      Subscriber::EventLogger.new(@publisher, @options)
+      Subscriber::Signaller.new(@publisher)
+      Subscriber::EventLogger.new(@publisher, @options, @logger)
       Subscriber::LightUpdater.new(@publisher, @options, @logger)
-      tween = Subscriber::Tween.new(@publisher, @options)
+      tween = Subscriber::Tweener.new(@publisher, @options)
       Subscriber::Timer.new(@publisher)
       Subscriber::RetroarchPoller.new(@publisher, @options, @logger)
       Subscriber::RetroarchTweener.new(@publisher, tween)

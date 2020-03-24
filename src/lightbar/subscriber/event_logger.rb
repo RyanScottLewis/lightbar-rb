@@ -3,18 +3,18 @@ require 'lightbar/subscriber/base'
 module Lightbar
   module Subscriber
 
-    # Logs all events.
+    # Logs all events, except {Event::Tick}.
     class EventLogger < Base
 
-      def initialize(publisher, options)
+      def initialize(publisher, options, logger)
         super(publisher)
 
         @options = options
+        @logger  = logger
       end
 
       def on(event)
-        puts(event.inspect) if @options.verbose && !event.is_a?(Event::Tick)
-        #logger.debug(event.inspect) if @options.verbose && !event.is_a?(Event::Tick)
+        @logger.debug(event.inspect) if @options.verbose && !event.is_a?(Event::Tick)
       end
 
     end

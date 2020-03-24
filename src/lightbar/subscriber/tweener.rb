@@ -4,8 +4,9 @@ require 'lightbar/event/change'
 module Lightbar
   module Subscriber
 
-    # Linear interpolation over a set duration.
-    class Tween < Base
+    # Interpolates over a set duration and emits {Event::Change} events.
+    # This runs on {Timer} tick, so it starts and stops it when necessary.
+    class Tweener < Base
 
       def initialize(publisher, options)
         super(publisher)
@@ -62,7 +63,10 @@ module Lightbar
       end
 
       def stop_timer_if_needed
-        publish(Event::Stop) if @time > @options.duration
+        return unless @time > @options.duration
+        @value = @to
+
+        publish(Event::Stop)
       end
 
       def modify_value(x)

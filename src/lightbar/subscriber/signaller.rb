@@ -5,8 +5,8 @@ require 'lightbar/event/exit'
 module Lightbar
   module Subscriber
 
-    # Watches for interrupt signal and sends {Event::Stop}.
-    class Signal < Base
+    # Watches for interrupt signal and emits {Event::Stop}.
+    class Signaller < Base
 
       def on_init(event)
         trap('INT') { publish(Event::Exit) }
