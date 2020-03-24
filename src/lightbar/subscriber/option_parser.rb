@@ -16,7 +16,6 @@ module Lightbar
         help:       [ "-h", "--help" ],
         verbose:    [ "-v", "--verbose" ],
         dry:        [ "-D", "--dry-run" ],
-        daemon:     [ "--daemon" ], # TODO: REMOVE
         pi_blaster: [ "-P", "--pi-blaster VALUE" ],
         pin:        [ "-p", "--pin VALUE" ],
         duration:   [ "-d", "--duration VALUE" ],
@@ -36,7 +35,6 @@ module Lightbar
             -h, --help                    Display help
             -v, --verbose                 Display extra information
             -D, --dry-run                 Do not perform actions
-                --daemon                  Daemonize the process
             -b, --bus        VALUE        D-Bus system or session bus (Default: '%s')
             -P, --pi-blaster VALUE        Pi-Blaster device path      (Default: '%s')
             -p, --pin        VALUE        Raspberry Pi BCM pin        (Default: %d)
@@ -47,11 +45,8 @@ module Lightbar
 
         Daemonization:
 
-          When daemonized, methods are called over D-Bus.
-          The daemon can run on either the system or session bus using the `--bus` option.
-
           Unfortunately this is written in Ruby and it adds some startup overhead.
-          If you want a tween to occur as fast as possible, use the `dbus-send` executable:
+          Because of this, the app is daemonized for tweening to occur as soon as possible.
 
             dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween double:0 double:1 double:1
             dbus-send --type=method_call --dest=org.Lightbar / org.Lightbar.tween_to double:1 double:1
@@ -120,7 +115,6 @@ module Lightbar
         @parser.on(*OPTIONS[:help],       "") {         @options.help       = true }
         @parser.on(*OPTIONS[:verbose],    "") {         @options.verbose    = true }
         @parser.on(*OPTIONS[:dry],        "") {         @options.dry        = true }
-        @parser.on(*OPTIONS[:daemon],     "") {         @options.daemon     = true }
         @parser.on(*OPTIONS[:bus],        "") { |value| @options.bus        = value }
         @parser.on(*OPTIONS[:pi_blaster], "") { |value| @options.pi_blaster = value }
         @parser.on(*OPTIONS[:pin],        "") { |value| @options.pin        = value }

@@ -73,7 +73,7 @@ module Lightbar
       end
 
       def start_run_loop
-        @logger.info("Starting D-Bus daemon")
+        @logger.info("Starting D-Bus server")
 
         @message_bus << @bus
         @message_bus.run

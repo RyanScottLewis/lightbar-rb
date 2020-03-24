@@ -20,8 +20,6 @@ module Lightbar
       end
 
       def on_init(event)
-        return unless @options.daemon
-
         start_run_loop
       end
 
@@ -32,7 +30,7 @@ module Lightbar
       protected
 
       def start_run_loop
-        @logger.info("Starting RetroArch daemon")
+        @logger.info("Starting RetroArch poller")
 
         @running = true
 
