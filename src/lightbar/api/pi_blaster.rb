@@ -1,5 +1,6 @@
 module Lightbar
   module API
+
     class PiBlaster
 
       def initialize
@@ -7,8 +8,6 @@ module Lightbar
       end
 
       def open(path)
-        p path
-        p File.exists?(path)
         return false unless File.exists?(path)
 
         @io = File.open(path, "w")
@@ -35,6 +34,7 @@ module Lightbar
       end
 
     end
+
   end
 end
 
