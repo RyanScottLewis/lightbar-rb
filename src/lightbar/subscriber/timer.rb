@@ -35,9 +35,11 @@ module Lightbar
 
         publish_tick # Publish the first tick
 
-        while @running
-          check_tick
-          wait
+        Thread.new do
+          while @running
+            check_tick
+            wait
+          end
         end
       end
 
