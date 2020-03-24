@@ -25,13 +25,14 @@ module Lightbar
 
       def on(event)
         case event
-        when Event::Initialize then on_init(event)
-        when Event::Exit       then on_exit(event)
-        when Event::Tween      then on_tween(event)
-        when Event::Tick       then on_tick(event)
-        when Event::Start      then on_start(event)
-        when Event::Stop       then on_stop(event)
-        when Event::Change     then on_change(event)
+        when Event::Initialize   then on_init(event)
+        when Event::Exit         then on_exit(event)
+        when Event::Tween        then on_tween(event)
+        when Event::Tick         then on_tick(event)
+        when Event::Start        then on_start(event)
+        when Event::Stop         then on_stop(event)
+        when Event::Change       then on_change(event)
+        when Event::StatusChange then on_status_change(event)
         end
       end
 
@@ -54,6 +55,9 @@ module Lightbar
       end
 
       def on_change(event)
+      end
+
+      def on_status_change(event)
       end
 
       protected

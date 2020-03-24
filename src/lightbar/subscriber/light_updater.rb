@@ -10,15 +10,15 @@ module Lightbar
       def initialize(publisher, options, logger)
         super(publisher)
 
-        @options    = options
-        @logger     = logger
-        @pi_blaster = API::PiBlaster.new
+        @options = options
+        @logger  = logger
+        @api     = API::PiBlaster.new
       end
 
       def on_start(event)
         return if @options.dry
 
-        unless @pi_blaster.open(@options.pi_blaster)
+        unless @api.open(@options.pi_blaster)
           @logger.fatal("Pi-blaster path does not exist")
 
           exit 1
@@ -28,7 +28,7 @@ module Lightbar
       def on_change(event)
         return if @options.dry
 
-        unless @pi_blaster.update(@options.pin, event.value)
+        unless @api.update(@options.pin, event.value)
           @logger.warn("Could not update Pi-blaster pin value")
         end
       end
@@ -36,7 +36,7 @@ module Lightbar
       def on_stop(event)
         return if @options.dry
 
-        unless @pi_blaster.close
+        unless @api.close
           @logger.warn("Pi-blaster IO is not open")
         end
       end

@@ -13,6 +13,8 @@ module Lightbar
         @options = options
       end
 
+      attr_reader :value
+
       def on_tween(event)
         setup_variables(event)
         start_timer
