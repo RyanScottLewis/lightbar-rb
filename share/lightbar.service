@@ -12,6 +12,10 @@ EnvironmentFile=-/etc/default/lightbar
 User=root
 ExecStart=/usr/bin/lightbar --daemon $DAEMON_OPTS
 Restart=always
+TimeoutStartSec=5
+TimeoutStopSec=30
+RestartSec=5
+#KillMode=none
 
 [Install]
 WantedBy=multi-user.target
