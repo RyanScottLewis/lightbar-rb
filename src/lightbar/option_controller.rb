@@ -19,21 +19,7 @@ module Lightbar
       from:       [ "-f", "--from VALUE" ],
       to:         [ "-t", "--to VALUE" ],
       bus:        [ "--bus VALUE" ],
-      exponent:   [ "-e", "--exponent VALUE" ],
-    }
-
-    DESCRIPTIONS = { # TODO: Just merge into HELP, why is this out here?
-      help:       "Display help",
-      verbose:    "Display extra information",
-      dry:        "Do not perform actions",
-      daemon:     "Daemonize the process",
-      pi_blaster: "Pi-Blaster device path      (Default: '%s')",
-      pin:        "Raspberry Pi BCM pin        (Default: %d)",
-      duration:   "Tween duration in seconds   (Default: %.1f)",
-      from:       "Value to tween from",
-      to:         "Value to tween to           (Default: %.1f)",
-      bus:        "D-Bus system or session bus (Default: '%s')",
-      exponent:   "Tweening curve exponent     (Default: %d)",
+      curve:      [ "-c", "--curve VALUE" ],
     }
 
     HELP = <<~STR
@@ -43,17 +29,17 @@ module Lightbar
 
       Options:
 
-          -h, --help              #{DESCRIPTIONS[:help]}
-          -v, --verbose           #{DESCRIPTIONS[:verbose]}
-          -D, --dry-run           #{DESCRIPTIONS[:dry]}
-              --daemon            #{DESCRIPTIONS[:daemon]}
-          -b, --pi-blaster VALUE  #{DESCRIPTIONS[:pi_blaster]}
-          -p, --pin VALUE         #{DESCRIPTIONS[:pin]}
-          -d, --duration VALUE    #{DESCRIPTIONS[:duration]}
-          -f, --from VALUE        #{DESCRIPTIONS[:from]}
-          -t, --to VALUE          #{DESCRIPTIONS[:to]}
-              --bus VALUE         #{DESCRIPTIONS[:bus]}
-          -e, --exponent VALUE    #{DESCRIPTIONS[:exponent]}
+          -h, --help                    Display help
+          -v, --verbose                 Display extra information
+          -D, --dry-run                 Do not perform actions
+              --daemon                  Daemonize the process
+              --bus        VALUE        D-Bus system or session bus (Default: '%s')
+          -b, --pi-blaster VALUE        Pi-Blaster device path      (Default: '%s')
+          -p, --pin        VALUE        Raspberry Pi BCM pin        (Default: %d)
+          -d, --duration   VALUE        Tween duration in seconds   (Default: %.1f)
+          -c, --curve      VALUE        Tween curve                 (Default: '%s')
+          -f, --from       VALUE        Tween starting value
+          -t, --to         VALUE        Tween ending value          (Default: %.1f)
 
       Daemonization:
 
@@ -73,16 +59,20 @@ module Lightbar
 
       Tweening Curves:
 
-        By default, tweening is done linearly. This can be modified using the `--exponent` option.
+        By default, tweening is done linearly. This can be modified using the `--curve` option.
 
         Will apply the formula following formula to the tween:
 
-          `x ^ e`
-
-          Where:
-
           > x = Normalized tween percentage (0-1)
-          > e = Exponent value given by `exponent`
+
+          Value     | Formula
+          ----------|------------------------------------
+          linear    | x
+          quadratic | x ^ 2
+          cubic     | x ^ 3
+          sine      | ( sin( (x - 0.5) * PI ) / 2 ) + 0.5
+
+          > `sine` looks scary but it's just the first half of a sine wave.
 
       Dependencies:
 
@@ -97,7 +87,14 @@ module Lightbar
       @arguments   = arguments
       @options     = options
       @parser      = OptionParser.new
-      @help        = HELP % [@options.pi_blaster, @options.pin, @options.duration, @options.to, @options.bus, @options.exponent]
+      @help        = HELP % [
+        @options.bus,
+        @options.pi_blaster,
+        @options.pin,
+        @options.duration,
+        @options.curve,
+        @options.to,
+      ]
 
       define_options
     end
@@ -114,13 +111,13 @@ module Lightbar
       @parser.on(*OPTIONS[:verbose],    "") {         @options.verbose    = true }
       @parser.on(*OPTIONS[:dry],        "") {         @options.dry        = true }
       @parser.on(*OPTIONS[:daemon],     "") {         @options.daemon     = true }
+      @parser.on(*OPTIONS[:bus],        "") { |value| @options.bus        = value }
       @parser.on(*OPTIONS[:pi_blaster], "") { |value| @options.pi_blaster = value }
       @parser.on(*OPTIONS[:pin],        "") { |value| @options.pin        = value }
       @parser.on(*OPTIONS[:duration],   "") { |value| @options.duration   = value }
+      @parser.on(*OPTIONS[:curve],      "") { |value| @options.curve      = value }
       @parser.on(*OPTIONS[:from],       "") { |value| @options.from       = value }
       @parser.on(*OPTIONS[:to],         "") { |value| @options.to         = value }
-      @parser.on(*OPTIONS[:bus],        "") { |value| @options.bus        = value }
-      @parser.on(*OPTIONS[:exponent],   "") { |value| @options.exponent   = value }
     end
 
     def parse_options

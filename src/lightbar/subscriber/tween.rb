@@ -51,7 +51,7 @@ module Lightbar
       def update_value
         ratio     = @time / @duration                 # Normalize
         @value    = (1 - ratio) * @from + ratio * @to # Precise lerp
-        @value    = @value ** @options.exponent
+        @value    = modify_value(@value)              # Curve modifier
         low, high = [@from, @to].sort                 # For clamping
         @value    = @value.clamp(low, high)           # Clamp value to limits
       end
@@ -61,7 +61,17 @@ module Lightbar
       end
 
       def stop_timer_if_needed
-        publish(Event::Stop) if @value == @to
+        publish(Event::Stop) if @time > @duration
+      end
+
+      def modify_value(x)
+        case @options.curve
+        when :linear    then x
+        when :quadratic then x ** 2
+        when :cubic     then x ** 3
+        when :sine      then ( Math.sin( (x - 0.5) * Math::PI ) / 2 ) + 0.5
+        else;                x
+        end
       end
 
     end

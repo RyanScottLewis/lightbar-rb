@@ -3,6 +3,9 @@ module Lightbar
   # The application option structure.
   class Options
 
+    BUSSES = %i[system session]
+    CURVES = %i[linear quadratic cubic sine]
+
     def initialize
       @help       = false
       @verbose    = false
@@ -14,7 +17,7 @@ module Lightbar
       @from       = nil
       @to         = 1.0
       @bus        = :system
-      @exponent   = 1
+      @curve      = :linear
     end
 
     attr_reader :help
@@ -27,7 +30,7 @@ module Lightbar
     attr_reader :from
     attr_reader :to
     attr_reader :bus
-    attr_reader :exponent
+    attr_reader :curve
 
     # TODO: This should all be somewhere else really
 
@@ -69,16 +72,16 @@ module Lightbar
 
     def bus=(value)
       value = value.to_sym
-      return unless %i[system session].include?(value)
+      return unless BUSSES.include?(value)
 
       @bus = value
     end
 
-    def exponent=(value)
-      value = value.to_i
-      return if @exponent < 1
+    def curve=(value)
+      value = value.to_sym
+      return unless CURVES.include?(value)
 
-      @exponent = value
+      @curve = value
     end
 
   end

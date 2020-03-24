@@ -33,6 +33,8 @@ module Lightbar
         @delta        = 0.0
         @running      = true
 
+        publish_tick # Publish the first tick
+
         while @running
           check_tick
           wait
