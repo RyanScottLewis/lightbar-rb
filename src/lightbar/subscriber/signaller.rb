@@ -10,6 +10,7 @@ module Lightbar
 
       def on_init(event)
         trap('INT') { publish(Event::Exit) }
+        trap('TERM') { publish(Event::Exit) }
       end
 
     end
