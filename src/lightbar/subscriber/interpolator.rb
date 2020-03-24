@@ -6,7 +6,7 @@ module Lightbar
 
     # Interpolates over a set duration and emits {Event::Change} events.
     # This runs on {Timer} tick, so it starts and stops it when necessary.
-    class Tweener < Base
+    class Interpolator < Base
 
       def initialize(publisher, options)
         super(publisher)

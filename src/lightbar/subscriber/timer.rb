@@ -10,6 +10,12 @@ module Lightbar
       TICK_DELAY  = 1.0 / 60.0
       CHECK_DELAY = 0.01
 
+      def initialize(publisher, threads)
+        super(publisher)
+
+        @threads = threads
+      end
+
       attr_reader :last_tick_at
       attr_reader :current_tick_at
       attr_reader :delta
@@ -35,7 +41,7 @@ module Lightbar
 
         publish_tick # Publish the first tick
 
-        Thread.new do
+        @threads << Thread.new do
           while @running
             check_tick
             wait

@@ -7,16 +7,16 @@ module Lightbar
     # Fades out on starting to play and fades in on paused/stopping.
     class RetroarchTweener < Base
 
-      def initialize(publisher, tween)
+      def initialize(publisher, interpolator)
         super(publisher)
 
-        @tween      = tween
-        @last_value = 1
+        @interpolator = interpolator
+        @last_value   = 1
       end
 
       def on_status_change(event)
         if event.to == :playing
-          @last_value = @tween.value || 0
+          @last_value = @interpolator.value || 0
 
           publish(Event::Tween, nil, 0)
         elsif event.from == :playing

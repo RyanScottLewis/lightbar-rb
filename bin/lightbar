@@ -4,5 +4,7 @@ $:.unshift(File.expand_path(File.join('..', 'src'), __dir__))
 
 require 'lightbar/application'
 
+Thread.abort_on_exception = true
+
 Lightbar::Application.call(ARGV)
 

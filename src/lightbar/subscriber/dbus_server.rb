@@ -37,11 +37,12 @@ module Lightbar
 
       end
 
-      def initialize(publisher, options, logger)
+      def initialize(publisher, options, logger, threads)
         super(publisher)
 
         @options     = options
         @logger      = logger
+        @threads     = threads
         @message_bus = DBus::Main.new
       end
 
@@ -76,7 +77,10 @@ module Lightbar
         @logger.info("Starting D-Bus server")
 
         @message_bus << @bus
-        @message_bus.run
+
+        @threads << Thread.new do
+          @message_bus.run
+        end
       end
 
       def stop_run_loop
